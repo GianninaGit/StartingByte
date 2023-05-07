@@ -42,7 +42,15 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         // print(row) -> Esto, al ejecutarlo así nomás, me imprime la posición de la fila seleccionada, pero no el nombre (la moneda en sí).
         //9) Challenge: Change the code to print the currency value selected, instead of the row number.
-        print(coinManager.currencyArray[row])
+        let selectedCurrency = coinManager.currencyArray[row]
+        print(selectedCurrency)
+        //10) Crear método en struct CoinManager: getCoinPrice(for currency: String)
+        //11) Challenge: Update the pickerView(didSelectRow:) method to pass the selected currency to the CoinManager via the getCoinPrice() method.
+        //Doncs... el VC obtiene la currency seleccionada por el usuario, y la guarda en selectedCurrency.
+        //Esta fc: getCoinPrice(for currency: String) que está declarada en el Modelo CoinManager, recibe un String.
+        //Doncs, a mi objeto coinManager, le aplico esta fc, y le paso como String a selectedCurrency (que es la cajita que contiene lo seleccionado):
+        coinManager.getCoinPrice(for: selectedCurrency)
+        
     }
 }
 
