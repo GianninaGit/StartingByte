@@ -32,10 +32,17 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         return numberOfRows
     }
     
-    //7) Para completar la rueda con títulos: añado fc. Esta fc espera un string como output: el título de la fila en cuestión. el PickerView le preguntará a su delegado (este VC) por una fila con título, y llamará a este método por cada fila. Entonces, al querer obtener el título de la fila, el VC le pasará una fila valor 0 con un componente (columna) valor cero (posiciones iniciales). Dentro de este método, podemos la "row:Int" para seleccionar el título de la fila: Modelo (coinManager -> instanciado arriba) dame la posición X de tu array currencyArray (donde tiene guardadas la lista de títulos). Ésto ocurrirá cada vez que el usuario ruede el picker.
+    //7) Para completar la rueda con títulos: añado closure titleForRow. Esta fc espera un string como output: el título de la fila en cuestión. el PickerView le preguntará a su delegado (este VC) por una fila con título, y llamará a este método por cada fila. Entonces, al querer obtener el título de la fila, el VC le pasará una fila valor 0 con un componente (columna) valor cero (posiciones iniciales). Dentro de este método, podemos la "row:Int" para seleccionar el título de la fila: Modelo (coinManager -> instanciado arriba) dame la posición X de tu array currencyArray (donde tiene guardadas la lista de títulos). Ésto ocurrirá cada vez que el usuario ruede el picker.
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let titleOfRow = coinManager.currencyArray[row]
         return titleOfRow
+    }
+    
+    //8) Para cambiar seleccionar una fila (una moneda) de la rueda: añado closure didSelectRow. Esta fc se ejecutará cada vez que el usuario scrollee la rueda, y grabará el número de fila seleccionada.
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        // print(row) -> Esto, al ejecutarlo así nomás, me imprime la posición de la fila seleccionada, pero no el nombre (la moneda en sí).
+        //9) Challenge: Change the code to print the currency value selected, instead of the row number.
+        print(coinManager.currencyArray[row])
     }
 }
 
