@@ -1,11 +1,3 @@
-//
-//  CoinManager.swift
-//  ByteCoin
-//
-//  Created by Angela Yu on 11/09/2019.
-//  Copyright © 2019 The App Brewery. All rights reserved.
-//
-
 import Foundation
 
 struct CoinManager {
@@ -15,5 +7,8 @@ struct CoinManager {
     
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
 
-    
+    //10) Crear fc. for sería el parámetro externo, que se usa al llamar a la fc; y currency sería el parametro interno, que se usa dentro de la fc.
+    func getCoinPrice(for currency: String) {
+        
+    }
 }
