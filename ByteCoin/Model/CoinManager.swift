@@ -4,7 +4,7 @@ import Foundation
 
 struct CoinManager {
     
-    //12b) Éste es el URL al que debo acceder, la parte variable es BTC (dependerá de qué moneda elija el usuario con el picker) y USD (que supongo que tmb podrá editarlo) -> rest.coinapi.io/v1/exchangerate/BTC/ USD? apikey=BA04936C-C450-47D7-9904-461576CA26B5
+    //12b) Éste es el URL al que debo acceder, la parte variable es BTC (dependerá de qué moneda elija el usuario con el picker) y USD (que supongo que tmb podrá editarlo) -> rest.coinapi.io/v1/exchangerate/BTC/ USD? apikey={}
     let baseURL = "https://rest.coinapi.io/v1/exchangerate/BTC/"
     let apiKey = "secretApiKeyByte"
     
