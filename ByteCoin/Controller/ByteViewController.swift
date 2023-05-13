@@ -1,6 +1,6 @@
 import UIKit
 
-class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class ByteViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
     //1) Añado el protocolo UIPickerViewDataSource, que define los métodos que el VC debe implementar para actuar como proveedor de datos para una vista de selección de UIPickerView.
     //5) Tenemos 3 propiedades: 2 de texto y 1 de selección.
     
@@ -13,7 +13,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //2) Selecciono al ViewController como el dataSource de la rueda de cambio, es decir, el mismo controler se autodefine como proveedor de datos para la ruieda. dataSource viene del protocolo UIPickerViewDataSource.
+        //2) Selecciono al ViewController como el dataSource de la rueda de cambio, es decir, el mismo controler se autodefine como proveedor de datos para la rueda. dataSource viene del protocolo UIPickerViewDataSource.
         currencyPicker.dataSource = self
         
         //6) Para completar la rueda con títulos: añado el protocolo UIPickerViewDelegate a la clase, y configuro a este mismo controller como delegado del currencyPicker.
@@ -32,7 +32,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         return numberOfRows
     }
     
-    //7) Para completar la rueda con títulos: añado closure titleForRow. Esta fc espera un string como output: el título de la fila en cuestión. el PickerView le preguntará a su delegado (este VC) por una fila con título, y llamará a este método por cada fila. Entonces, al querer obtener el título de la fila, el VC le pasará una fila valor 0 con un componente (columna) valor cero (posiciones iniciales). Dentro de este método, podemos la "row:Int" para seleccionar el título de la fila: Modelo (coinManager -> instanciado arriba) dame la posición X de tu array currencyArray (donde tiene guardadas la lista de títulos). Ésto ocurrirá cada vez que el usuario ruede el picker.
+    //7) Para completar la rueda con títulos: añado closure titleForRow. Esta fc espera un string como output: el título de la fila en cuestión. el pickerView le preguntará a su delegado (este VC) por una fila con título, y llamará a este método por cada fila. Entonces, al querer obtener el título de la fila, el VC le pasará una fila valor 0 con un componente (columna) valor cero (posiciones iniciales). Dentro de este método, ponemos la "row:Int" para seleccionar el título de la fila: Modelo (coinManager -> instanciado arriba) dame la posición X de tu array currencyArray (donde tiene guardadas la lista de títulos). Ésto ocurrirá cada vez que el usuario ruede el picker.
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         let titleOfRow = coinManager.currencyArray[row]
         return titleOfRow
@@ -50,7 +50,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         //Esta fc: getCoinPrice(for currency: String) que está declarada en el Modelo CoinManager, recibe un String.
         //Doncs, a mi objeto coinManager, le aplico esta fc, y le paso como String a selectedCurrency (que es la cajita que contiene lo seleccionado):
         coinManager.getCoinPrice(for: selectedCurrency)
-        
+
     }
 }
 
