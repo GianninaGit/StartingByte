@@ -2,7 +2,7 @@ import Foundation
 
 //16) Video 169: Creo protocolo para actualizar User Interface
 protocol CoinManagerDelegate {
-    func didUpdatePriceOfBitcoin(_ coinManager: CoinManager, precioByte: Double)
+    func didUpdatePriceOfBitcoin(_ coinManagerInternalParameter: CoinManager, precioByte: Double)
     func didFailWithError(error: Error)
 }
 
@@ -11,7 +11,7 @@ struct CoinManager {
     
     //12b) Éste es el URL al que debo acceder, la parte variable es BTC (dependerá de qué moneda elija el usuario con el picker) y USD (que supongo que tmb podrá editarlo) -> rest.coinapi.io/v1/exchangerate/BTC/ USD? apikey={}
     let baseURL = "https://rest.coinapi.io/v1/exchangerate/BTC/"
-    let apiKey = "insertar api key
+    let apiKey = "insertar api key"
     
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
 
