@@ -59,9 +59,14 @@ class ByteViewController: UIViewController, UIPickerViewDataSource, UIPickerView
     }
     
     //16d) Esta fc debe cumplir con el protocolo
-    func didUpdatePriceOfBitcoin(_ coinManager: CoinManager, precioByte: Double) {
-        //16e) Si quiero updatear UI desde el completionHandler, dará un error. Esto se debe a que el completionHandler se encarga de ejecutar tareas grandes (como el networking) en el background. Al querer updatear UI desde la closure (donde está el handler), podría tomar minutos u horas, y en el interín, la UI estaría congelada. Para que esto no ocurra, debemos llamar al hilo principal, para que updatee la UI (falta implementar)
-        print(currencyLabel.text = String(format: "%.2f", precioByte))
+    func didUpdatePriceOfBitcoin(_ coinManagerInternalParameter: CoinManager, precioByte: Double) {
+        //16e) Si quiero updatear UI desde el completionHandler, dará un error. Esto se debe a que el completionHandler se encarga de ejecutar tareas grandes (como el networking) en el background. Al querer updatear UI desde la closure (donde está el handler), podría tomar minutos u horas, y en el interín, la UI estaría congelada. Para que esto no ocurra, debemos llamar al hilo principal, para que updatee la UI:
+        DispatchQueue.main.async {
+            self.bitcoinLabel.text = String(format: "%.2f", precioByte)
+            //self.currencyLabel.text = coinManagerInternalParameter.currencyArray[]
+            
+        }
+        
     }
     
     func didFailWithError(error: Error) {
