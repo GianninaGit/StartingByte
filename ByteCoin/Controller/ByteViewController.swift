@@ -1,6 +1,9 @@
 import UIKit
 
-class ByteViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+//16c) La clase adopta el protocolo con el delegate y añado las funciones automáticamente para que cumplan con el protocolo.
+class ByteViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, CoinManagerDelegate {
+
+    
     //1) Añado el protocolo UIPickerViewDataSource, que define los métodos que el VC debe implementar para actuar como proveedor de datos para una vista de selección de UIPickerView.
     //5) Tenemos 3 propiedades: 2 de texto y 1 de selección.
     
@@ -8,7 +11,7 @@ class ByteViewController: UIViewController, UIPickerViewDataSource, UIPickerView
     @IBOutlet weak var currencyLabel: UILabel!
     @IBOutlet weak var currencyPicker: UIPickerView!
     
-    let coinManager = CoinManager()
+    var coinManager = CoinManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +21,9 @@ class ByteViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         
         //6) Para completar la rueda con títulos: añado el protocolo UIPickerViewDelegate a la clase, y configuro a este mismo controller como delegado del currencyPicker.
         currencyPicker.delegate = self
+        
+        //16e) Acordarse de definir el delegate aca tmb:
+        coinManager.delegate = self
     }
     
     //3) Con esta función, que sale del protocolo, elijo cuántas columnas: 1.
@@ -50,7 +56,16 @@ class ByteViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         //Esta fc: getCoinPrice(for currency: String) que está declarada en el Modelo CoinManager, recibe un String.
         //Doncs, a mi objeto coinManager, le aplico esta fc, y le paso como String a selectedCurrency (que es la cajita que contiene lo seleccionado):
         coinManager.getCoinPrice(for: selectedCurrency)
-
+    }
+    
+    //16d) Esta fc debe cumplir con el protocolo
+    func didUpdatePriceOfBitcoin(_ coinManager: CoinManager, precioByte: Double) {
+        //16e) Si quiero updatear UI desde el completionHandler, dará un error. Esto se debe a que el completionHandler se encarga de ejecutar tareas grandes (como el networking) en el background. Al querer updatear UI desde la closure (donde está el handler), podría tomar minutos u horas, y en el interín, la UI estaría congelada. Para que esto no ocurra, debemos llamar al hilo principal, para que updatee la UI (falta implementar)
+        print(currencyLabel.text = String(format: "%.2f", precioByte))
+    }
+    
+    func didFailWithError(error: Error) {
+        print(error)
     }
 }
 

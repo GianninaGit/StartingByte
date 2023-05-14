@@ -1,15 +1,23 @@
 import Foundation
 
-//12a) Video 167: Creo esta archivo CoinManager para hacer la request a la api
+//16) Video 169: Creo protocolo para actualizar User Interface
+protocol CoinManagerDelegate {
+    func didUpdatePriceOfBitcoin(_ coinManager: CoinManager, precioByte: Double)
+    func didFailWithError(error: Error)
+}
 
+//12a) Video 167: Creo esta archivo CoinManager para hacer la request a la api
 struct CoinManager {
     
     //12b) Éste es el URL al que debo acceder, la parte variable es BTC (dependerá de qué moneda elija el usuario con el picker) y USD (que supongo que tmb podrá editarlo) -> rest.coinapi.io/v1/exchangerate/BTC/ USD? apikey={}
     let baseURL = "https://rest.coinapi.io/v1/exchangerate/BTC/"
-    let apiKey = "SECRET API KEY"
+    let apiKey = "insertar api key
     
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
 
+    //16a)Creo la variable delegate de tipo protocolo, para que esta struct pueda acceder a las fc del protocolo. Cualquier clase o struct que se autodefina como delegate, deberá cumplir con el protocolo CoinManagerDelegate:
+    var delegate: CoinManagerDelegate?
+    
     //10) Crear fc. for sería el parámetro externo, que se usa al llamar a la fc; y currency sería el parametro interno, que se usa dentro de la fc.
     func getCoinPrice(for currencySelectedByUser: String) {
         //12c) Armo el URL que voy a usar y con la instancia de este manager que ya está creada en el Controller, le pido que me dé la moneda seleccionada por el usuario (esto lo hago en el punto 12d que está en el Controller. Para hacer esto, ver video 148.
@@ -33,7 +41,9 @@ struct CoinManager {
             let task = session.dataTask(with: url) { dataAPI, responseAPI, errorAPI in
                 //Debo seleccionar el compleetionHandler y apretar enter para que se desglose.
                 //Si la data recibida no es nula, ok, continuar, salir de ese if.
+                //16c) Si durante la task hubo un error (ej, pérdida de conexión de internet), quien sea el delegate, que ejecute la fc de error (acordarse del self. antes!! estoy en closure!)
                 if errorAPI != nil {
+                    self.delegate?.didFailWithError(error: errorAPI!)
                     print(errorAPI!)
                     return
                 }
@@ -43,6 +53,8 @@ struct CoinManager {
                 //14b)Agrego la función para interpretar el JSON, y le paso la info recibida de la api. Agregar self para que esta fc aplique sobre este CoinManager (hay que aclararlo porque estoy dentro de una closure).
                 if let criptoInfoFromApi = self.parseJSON(dataAPI!) {//14g) Pongo esto en una constante xq da error sino. 14i) Le añado un if porque sino da un warning (porque el json ahora entrega un type Double opcional.
                     //15a) Borré el parámetro cryptoValueRecived de func parseJSON(_ cryptoValueRecived: Data) -> Double?
+                    //16b) Si la info de la api es correcta, quiero pasarla al controler, para eso uso el delegate: Quien sea que se haya autodefinido como delegate(el controller), podrá usar esta fc: (y acordarse de poner el self. adelante xq estoy en una closure)
+                    self.delegate?.didUpdatePriceOfBitcoin(self, precioByte: criptoInfoFromApi)
                 }
             }
             
@@ -62,6 +74,8 @@ struct CoinManager {
             print(criptoRate)
             return criptoRate //14h) Acordarse de retornar el double
         } catch {
+            //16d) Aquí también pueden haber errores, si la interpretación del JSON va mal. 
+            delegate?.didFailWithError(error: error)
             print(error)
             return nil //14h) Acordarse de retornar nil, y para que no de error, hacer opcional al return de la fc: ->Double?
         }
