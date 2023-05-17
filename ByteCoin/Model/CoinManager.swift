@@ -10,9 +10,11 @@ struct CoinManager {
     var coinData: CoinData?
     
     let baseURL = "https://rest.coinapi.io/v1/exchangerate/BTC/"
-    let apiKey = "insertar api key"
+    let apiKey = ProcessInfo.processInfo.environment["apiKey"] ?? ""
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
 
+    
+    
     func getCoinPrice(for currencySelectedByUser: String) {
 
         let urlStringModificableByUserSelection = "\(baseURL)\(currencySelectedByUser)?apikey=\(apiKey)"
