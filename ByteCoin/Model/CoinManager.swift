@@ -5,6 +5,7 @@ protocol CoinManagerDelegate {
     func didFailWithError(error: Error)
 }
 
+
 struct CoinManager {
     var delegate: CoinManagerDelegate?
     var coinData: CoinData?

@@ -1,6 +1,6 @@
 import UIKit
 
-class ByteViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, CoinManagerDelegate {
+class ByteViewController: UIViewController {
     
     @IBOutlet weak var bitcoinLabel: UILabel!
     @IBOutlet weak var currencyLabel: UILabel!
@@ -14,18 +14,11 @@ class ByteViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         currencyPicker.delegate = self
         coinManager.delegate = self
     }
-    
-    func didUpdatePriceOfBitcoin(_ coinManagerInternalParameter: CoinManager, precioByte: Double, nombreMoneda: String) {
-        DispatchQueue.main.async {
-            self.bitcoinLabel.text = String(format: "%.2f", precioByte)
-            self.currencyLabel.text = nombreMoneda
-        }
-    }
-    
-    func didFailWithError(error: Error) {
-        print(error)
-    }
-    
+}
+
+//MARK: - UIPickerViewDelegate & UIPickerViewDataSource
+
+extension ByteViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         let numberOfColumns = 1
         return numberOfColumns
@@ -45,5 +38,20 @@ class ByteViewController: UIViewController, UIPickerViewDataSource, UIPickerView
         print(selectedCurrency)
         coinManager.getCoinPrice(for: selectedCurrency)
         //currencyLabel.text = selectedCurrency -> funciona, pero no es conceptualmente incorrecto porque la info debería venir del modelo.
+    }
+}
+
+//MARK: - CoinManagerDelegate
+
+extension ByteViewController: CoinManagerDelegate {
+    func didUpdatePriceOfBitcoin(_ coinManagerInternalParameter: CoinManager, precioByte: Double, nombreMoneda: String) {
+        DispatchQueue.main.async {
+            self.bitcoinLabel.text = String(format: "%.2f", precioByte)
+            self.currencyLabel.text = nombreMoneda
+        }
+    }
+    
+    func didFailWithError(error: Error) {
+        print(error)
     }
 }
